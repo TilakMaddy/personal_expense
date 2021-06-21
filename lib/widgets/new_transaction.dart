@@ -14,6 +14,10 @@ class _NewTransactionState extends State<NewTransaction> {
   final amountController = TextEditingController();
 
   void submitData() {
+    if (amountController.text.isEmpty) {
+      return;
+    }
+
     String titleText = titleController.text;
     double amount = double.parse(amountController.text);
 
@@ -38,18 +42,22 @@ class _NewTransactionState extends State<NewTransaction> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
+              style: Theme.of(context).textTheme.headline6,
               decoration: InputDecoration(labelText: 'Title'),
               controller: titleController,
               onSubmitted: (_) => submitData(),
             ),
             TextField(
+              style: Theme.of(context).textTheme.headline6,
               decoration: InputDecoration(labelText: 'Amount'),
               controller: amountController,
               keyboardType: TextInputType.number,
               onSubmitted: (_) => submitData(),
             ),
             TextButton(
-              style: TextButton.styleFrom(primary: Colors.purple),
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).primaryColor,
+              ),
               onPressed: () => submitData(),
               child: Text(
                 'Add Transaction',

@@ -14,7 +14,23 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
         accentColor: Colors.amberAccent,
-        fontFamily: 'OpenSans',
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              headline6: TextStyle(
+                // fontFamily: 'Quicksand',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+        ),
       ),
     );
   }
@@ -27,42 +43,42 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 't1',
-      title: 'New Shoes',
-      amount: 69.99,
-      dateTime: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Weekly Groceries',
-      amount: 16.53,
-      dateTime: DateTime.now(),
-    ),
-    Transaction(
-      id: 't1',
-      title: 'New Shoes',
-      amount: 69.99,
-      dateTime: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Weekly Groceries',
-      amount: 16.53,
-      dateTime: DateTime.now(),
-    ),
-    Transaction(
-      id: 't1',
-      title: 'New Shoyyyes',
-      amount: 69.99,
-      dateTime: DateTime.now(),
-    ),
-    Transaction(
-      id: 't1',
-      title: 'New Shoes',
-      amount: 69.99,
-      dateTime: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'New Shoes',
+    //   amount: 69.99,
+    //   dateTime: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Weekly Groceries',
+    //   amount: 16.53,
+    //   dateTime: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'New Shoes',
+    //   amount: 69.99,
+    //   dateTime: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Weekly Groceries',
+    //   amount: 16.53,
+    //   dateTime: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'New Shoyyyes',
+    //   amount: 69.99,
+    //   dateTime: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'New Shoes',
+    //   amount: 69.99,
+    //   dateTime: DateTime.now(),
+    // ),
   ];
 
   void _addNewTransaction(String title, double amount) {
@@ -93,9 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(
           'Personal Expenses',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppBarTheme.of(context).textTheme!.headline6,
         ),
         actions: [
           IconButton(
@@ -125,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => startAddNewTx(),
         child: Icon(Icons.add),
-        foregroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).primaryColorDark,
       ),
     );
   }
