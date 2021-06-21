@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
-  final titleController = TextEditingController(text: "");
-  final amountController = TextEditingController(text: "");
+class NewTransaction extends StatefulWidget {
   final Function tx;
 
   NewTransaction(this.tx);
 
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+
   void submitData() {
-    try {
-      double.parse(amountController.text);
-    } catch (e) {
-      return;
+    String titleText = titleController.text;
+    double amount = double.parse(amountController.text);
+
+    if (amount > 0 && titleText.isNotEmpty) {
+      widget.tx(
+        titleController.text,
+        double.parse(amountController.text),
+      );
+      Navigator.of(context).pop();
+    } else {
+      print("Incorrect details entered!");
     }
-    if (titleController.text.isEmpty ||
-        double.parse(amountController.text) <= 0) {
-      return;
-    }
-    tx(
-      titleController.text,
-      double.parse(amountController.text),
-    );
   }
 
   @override
@@ -40,12 +45,12 @@ class NewTransaction extends StatelessWidget {
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
               controller: amountController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              keyboardType: TextInputType.number,
               onSubmitted: (_) => submitData(),
             ),
             TextButton(
               style: TextButton.styleFrom(primary: Colors.purple),
-              onPressed: submitData,
+              onPressed: () => submitData(),
               child: Text(
                 'Add Transaction',
                 style: TextStyle(
