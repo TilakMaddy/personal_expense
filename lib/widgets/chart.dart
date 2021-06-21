@@ -10,7 +10,7 @@ class Chart extends StatelessWidget {
 
   List<Map<String, Object>> get groupedTxVals {
     return List.generate(7, (index) {
-      final weekDay = DateTime.now().subtract(Duration(days: 6 - index));
+      final weekDay = DateTime.now().subtract(Duration(days: index));
 
       var totalSum = 0.0;
 
@@ -30,7 +30,7 @@ class Chart extends StatelessWidget {
       };
 
       return item;
-    });
+    }).reversed.toList();
   }
 
   double get maxspending {
