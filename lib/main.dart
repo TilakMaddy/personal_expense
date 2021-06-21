@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './widgets/chart.dart';
 import './widgets/new_transaction.dart';
 import './models/transaction.dart';
 import 'widgets/transaction_list.dart';
@@ -81,6 +82,18 @@ class _MyHomePageState extends State<MyHomePage> {
     // ),
   ];
 
+  List<Transaction> get _recentTx {
+    return _userTransactions
+        .where(
+          (tx) => DateTime.now()
+              .subtract(
+                Duration(days: 7),
+              )
+              .isBefore(tx.dateTime),
+        )
+        .toList();
+  }
+
   void _addNewTransaction(String title, double amount) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
@@ -95,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void startAddNewTx() {
+    print(_recentTx);
     showModalBottomSheet(
       context: context,
       builder: (_) {
@@ -122,15 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              child: Card(
-                child: Text(
-                  'CHART',
-                ),
-                elevation: 5,
-                color: Colors.blue,
-              ),
-            ),
+            Chart(_recentTx),
             TransactionList(userTransactions: _userTransactions),
           ],
         ),
