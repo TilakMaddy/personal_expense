@@ -45,24 +45,26 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 6,
-      margin: EdgeInsets.all(20),
-      child: Padding(
-        padding: EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: groupedTxVals.map((tx) {
-            return Flexible(
-              fit: FlexFit.tight,
-              child: ChartBar(
-                  label: tx['day'] as String,
-                  spendPercent: maxspending == 0.0
-                      ? 0.0
-                      : (tx['amount'] as double) / maxspending,
-                  spendingAmt: (tx['amount'] as double)),
-            );
-          }).toList(),
+    return Container(
+      child: Card(
+        elevation: 6,
+        margin: EdgeInsets.all(20),
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: groupedTxVals.map((tx) {
+              return Flexible(
+                fit: FlexFit.tight,
+                child: ChartBar(
+                    label: tx['day'] as String,
+                    spendPercent: maxspending == 0.0
+                        ? 0.0
+                        : (tx['amount'] as double) / maxspending,
+                    spendingAmt: (tx['amount'] as double)),
+              );
+            }).toList(),
+          ),
         ),
       ),
     );

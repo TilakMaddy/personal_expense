@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 import './widgets/chart.dart';
 import './widgets/new_transaction.dart';
 import './models/transaction.dart';
 import 'widgets/transaction_list.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //   [
+  //     DeviceOrientation.portraitDown,
+  //     DeviceOrientation.portraitUp,
+  //   ],
+  // );
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -81,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
       dateTime: DateTime.now(),
     ),
   ];
-
+  bool _showChart = false;
   List<Transaction> get _recentTx {
     return _userTransactions
         .where(
@@ -125,28 +135,62 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Personal Expenses',
-          style: AppBarTheme.of(context).textTheme!.headline6,
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => startAddNewTx(),
-            icon: Icon(Icons.add),
-          ),
-        ],
+    final appBar = AppBar(
+      title: Text(
+        'Personal Expenses',
+        style: AppBarTheme.of(context).textTheme!.headline6,
       ),
+      actions: [
+        IconButton(
+          onPressed: () => startAddNewTx(),
+          icon: Icon(Icons.add),
+        ),
+      ],
+    );
+
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Chart(_recentTx),
-            TransactionList(
-              userTransactions: _userTransactions,
-              deleteTx: _deleteTx,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Show Chart'),
+                Switch(
+                  value: _showChart,
+                  onChanged: (val) {
+                    setState(() {
+                      _showChart = val;
+                    });
+                  },
+                ),
+              ],
             ),
+            _showChart
+                ? Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.7,
+                    child: Chart(_recentTx),
+                  )
+                : Container(
+                    height: ( // device height
+                            MediaQuery.of(context).size.height -
+
+                                // app bar height
+                                appBar.preferredSize.height -
+
+                                // status bar height
+                                MediaQuery.of(context).padding.top) *
+                        0.7,
+                    child: TransactionList(
+                      userTransactions: _userTransactions,
+                      deleteTx: _deleteTx,
+                    ),
+                  ),
           ],
         ),
       ),
