@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class NewTransaction extends StatelessWidget {
@@ -8,6 +6,22 @@ class NewTransaction extends StatelessWidget {
   final Function tx;
 
   NewTransaction(this.tx);
+
+  void submitData() {
+    try {
+      double.parse(amountController.text);
+    } catch (e) {
+      return;
+    }
+    if (titleController.text.isEmpty ||
+        double.parse(amountController.text) <= 0) {
+      return;
+    }
+    tx(
+      titleController.text,
+      double.parse(amountController.text),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +35,17 @@ class NewTransaction extends StatelessWidget {
             TextField(
               decoration: InputDecoration(labelText: 'Title'),
               controller: titleController,
+              onSubmitted: (_) => submitData(),
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
               controller: amountController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              onSubmitted: (_) => submitData(),
             ),
             TextButton(
               style: TextButton.styleFrom(primary: Colors.purple),
-              onPressed: () {
-                tx(titleController.text, double.parse(amountController.text));
-              },
+              onPressed: submitData,
               child: Text(
                 'Add Transaction',
                 style: TextStyle(
